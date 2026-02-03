@@ -2,22 +2,19 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Feliz Aniversário, Mylena! 🎉</title>
-  <meta name="theme-color" content="#ff4d6d"/>
-
-  <!-- iPhone “modo app” (opcional quando adiciona à tela inicial) -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#ff4d6d" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
   <style>
     :root{
       --pink:#ff4d6d;
       --ink:#1f2933;
-      --card: rgba(255,255,255,.90);
+      --card: rgba(255,255,255,.82);
       --shadow: 0 26px 60px rgba(0,0,0,.18);
       --radius: 26px;
-      --blur: blur(12px);
     }
 
     *{ box-sizing:border-box; }
@@ -32,7 +29,6 @@
       overflow-x:hidden;
       -webkit-tap-highlight-color: transparent;
 
-      /* safe areas iPhone */
       padding:
         max(18px, env(safe-area-inset-top))
         max(18px, env(safe-area-inset-right))
@@ -43,11 +39,11 @@
       align-items:center;
       justify-content:center;
 
-      /* Fundo mais “dinâmico e suave” */
-      background: radial-gradient(1200px 800px at 10% 10%, #ff9a9e 0%, transparent 55%),
-                  radial-gradient(900px 700px at 90% 20%, #a1c4fd 0%, transparent 55%),
-                  radial-gradient(900px 700px at 50% 95%, #a7f3d0 0%, transparent 55%),
-                  linear-gradient(135deg, #fad0c4, #fbc2eb);
+      background:
+        radial-gradient(1200px 800px at 10% 10%, #ff9a9e 0%, transparent 55%),
+        radial-gradient(900px 700px at 90% 20%, #a1c4fd 0%, transparent 55%),
+        radial-gradient(900px 700px at 50% 95%, #a7f3d0 0%, transparent 55%),
+        linear-gradient(135deg, #fad0c4, #fbc2eb);
       background-size: 120% 120%;
       animation: bgMove 10s ease-in-out infinite alternate;
     }
@@ -57,59 +53,27 @@
       to  { background-position: 15% 10%, 85% 10%, 55% 95%, 10% 45%; }
     }
 
-    /* “bolhas” suaves no fundo */
-    .bubbles{
-      position:fixed;
-      inset:0;
-      z-index:0;
-      pointer-events:none;
-      filter: var(--blur);
-      opacity:.55;
-    }
-    .bubble{
-      position:absolute;
-      width: 180px; height:180px;
-      border-radius: 50%;
-      background: rgba(255,255,255,.35);
-      animation: floaty 12s ease-in-out infinite;
-    }
-    .bubble:nth-child(1){ left: 6%; top: 70%; width:220px; height:220px; animation-duration: 13s; }
-    .bubble:nth-child(2){ left: 78%; top: 68%; width:260px; height:260px; animation-duration: 16s; }
-    .bubble:nth-child(3){ left: 70%; top: 10%; width:180px; height:180px; animation-duration: 14s; }
-    .bubble:nth-child(4){ left: 10%; top: 12%; width:240px; height:240px; animation-duration: 18s; }
-    @keyframes floaty{
-      0%   { transform: translate3d(0,0,0) scale(1); }
-      50%  { transform: translate3d(0,-18px,0) scale(1.03); }
-      100% { transform: translate3d(0,0,0) scale(1); }
-    }
-
-    /* Layout */
-    .wrap{
-      width:min(860px, 100%);
-      position:relative;
-      z-index:1;
-    }
+    .wrap{ width:min(860px, 100%); position:relative; }
 
     .card{
       width:min(820px, 94vw);
       margin: 0 auto;
-      background: rgba(255,255,255,.82);
-      backdrop-filter: blur(10px);
+      background: var(--card);
       border: 1px solid rgba(255,255,255,.55);
       border-radius: var(--radius);
       padding: clamp(20px, 4vw, 34px);
       text-align:center;
       box-shadow: var(--shadow);
-      position:relative;
+      animation: cardIn .75s cubic-bezier(.2,.9,.2,1) forwards;
       transform: translateY(10px);
       opacity: 0;
-      animation: cardIn .8s cubic-bezier(.2,.9,.2,1) forwards;
+      backdrop-filter: blur(10px);
     }
+
     @keyframes cardIn{
       to{ transform: translateY(0); opacity:1; }
     }
 
-    /* micro animações suaves */
     .float{ animation: float 2.6s ease-in-out infinite alternate; }
     @keyframes float{ from{ transform: translateY(0);} to{ transform: translateY(-10px);} }
 
@@ -129,7 +93,6 @@
       font-size: clamp(16px, 2.8vw, 20px);
       line-height: 1.65;
       margin: 0 0 16px;
-      scroll-margin-top: 22px;
     }
 
     .emoji-line{
@@ -151,7 +114,7 @@
       border:none;
       background: var(--pink);
       color:white;
-      font-size: 16px; /* evita zoom automático do iPhone */
+      font-size: 16px; /* evita zoom no iPhone */
       font-weight: 900;
       cursor:pointer;
       box-shadow: 0 12px 28px rgba(255,77,109,.45);
@@ -161,7 +124,6 @@
     button:hover{ opacity:.92; }
     button:active{ transform: translateY(1px); }
 
-    /* Confete */
     canvas{
       position:fixed;
       inset:0;
@@ -169,7 +131,7 @@
       z-index:999;
     }
 
-    /* Botão DESCE (fixo) */
+    /* Botão DESCE */
     .down{
       position: fixed;
       right: max(14px, env(safe-area-inset-right));
@@ -187,7 +149,7 @@
     }
     .down:active{ transform: translateY(1px); }
 
-    /* Link “direto” (sem abrir mil abas) */
+    /* Link reserva */
     .linkbox{
       display:none;
       margin-top: 14px;
@@ -205,33 +167,19 @@
       text-decoration: underline;
     }
 
-    @media (max-width: 420px){
-      .card{ width: 96vw; }
-      .footer{ font-size: 13px; }
-    }
-
-    /* acessibilidade: reduz movimento */
     @media (prefers-reduced-motion: reduce){
-      body, .emoji-line, .float, .card, .bubble{ animation: none !important; }
+      body, .emoji-line, .float, .card { animation: none !important; }
     }
   </style>
 </head>
 <body>
 
-  <div class="bubbles" aria-hidden="true">
-    <div class="bubble"></div>
-    <div class="bubble"></div>
-    <div class="bubble"></div>
-    <div class="bubble"></div>
-  </div>
-
   <canvas id="confetti"></canvas>
 
-  <!-- Botão descer -->
-  <button class="down" id="downBtn" type="button" onclick="scrollToButton()">DESCE ⬇️</button>
+  <button class="down" id="downBtn" type="button">DESCE ⬇️</button>
 
   <div class="wrap">
-    <div class="card" id="card">
+    <div class="card">
       <div class="emoji-line float">🎈🎉🎂🥳🎁🎊🎈🎉🎂🥳🎁🎊</div>
 
       <h1 class="float">Feliz aniversário, Mylena! 🥳🎂🎉</h1>
@@ -241,15 +189,15 @@
       </div>
 
       <p class="msg" id="msg">
-        Hoje é oficialmente o seu dia, então tá liberado:  
-        rir alto 😂, zoar sem critério 🤡, comer bolo sem culpa 🍰🍩  
-        e fingir responsabilidade só quando precisar 😌✨  
+        Hoje é oficialmente o seu dia, então tá liberado:
+        rir alto 😂, zoar sem critério 🤡, comer bolo sem culpa 🍰🍩
+        e fingir responsabilidade só quando precisar 😌✨
         <br><br>
-        Você é daquelas pessoas que fazem diferença de verdade —  
-        amizade leve, sincera e que a gente leva pra vida 🫂💛  
+        Você é daquelas pessoas que fazem diferença de verdade —
+        amizade leve, sincera e que a gente leva pra vida 🫂💛
         <br><br>
-        Que a Fisio venha com tudo 🧠💪📚  
-        que você arrebente nas práticas, nos estágios, nas provas  
+        Que a Fisio venha com tudo 🧠💪📚
+        que você arrebente nas práticas, nos estágios, nas provas
         e vire essa profissional braba que todo mundo sabe que você vai ser 😤🔥🩺
       </p>
 
@@ -257,11 +205,11 @@
         🎉🎂🥳😂💖✨🫶🎊💪🧠🩺📚🔥🍰🎈🎁🤪
       </div>
 
-      <button id="btn" onclick="btnClick()">CLICA AQUI E DEIXA O CAOS COMEÇAR 🎉🤣</button>
+      <button id="btn" type="button">CLICA AQUI E DEIXA O CAOS COMEÇAR 🎉🤣</button>
 
       <div class="linkbox" id="linkbox">
         Se o TikTok não abrir sozinho, clica aqui: <br>
-        <a id="tiktokLink" href="https://vt.tiktok.com/ZSaGTfywW/" target="_blank" rel="noopener noreferrer">
+        <a href="https://vt.tiktok.com/ZSaGTfywW/" target="_blank" rel="noopener noreferrer">
           https://vt.tiktok.com/ZSaGTfywW/
         </a>
       </div>
@@ -272,156 +220,121 @@
     </div>
   </div>
 
-<script>
-  // ===== Scroll “DESCE” =====
-  function scrollToButton(){
-    document.getElementById("btn").scrollIntoView({ behavior: "smooth", block: "center" });
-  }
+  <script>
+    // ===== botão DESCE =====
+    const downBtn = document.getElementById("downBtn");
+    const mainBtn = document.getElementById("btn");
 
-  // Esconde o botão DESCE quando já está perto do botão principal
-  const downBtn = document.getElementById("downBtn");
-  const mainBtn = document.getElementById("btn");
-  const io = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      downBtn.style.display = e.isIntersecting ? "none" : "block";
+    downBtn.addEventListener("click", () => {
+      mainBtn.scrollIntoView({ behavior: "smooth", block: "center" });
     });
-  }, { threshold: 0.2 });
-  io.observe(mainBtn);
 
-  // ===== Confete (mais suave e dinâmico) =====
-  const canvas = document.getElementById("confetti");
-  const ctx = canvas.getContext("2d");
-  let pieces = [];
-  let running = false;
+    // ===== confete (sem roundRect pra não dar erro em navegador velho) =====
+    const canvas = document.getElementById("confetti");
+    const ctx = canvas.getContext("2d");
+    let pieces = [];
+    let running = false;
 
-  function resize(){
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    canvas.width = Math.floor(window.innerWidth * dpr);
-    canvas.height = Math.floor(window.innerHeight * dpr);
-    canvas.style.width = window.innerWidth + "px";
-    canvas.style.height = window.innerHeight + "px";
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  }
-  window.addEventListener("resize", resize);
-  resize();
+    function resize(){
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.floor(window.innerWidth * dpr);
+      canvas.height = Math.floor(window.innerHeight * dpr);
+      canvas.style.width = window.innerWidth + "px";
+      canvas.style.height = window.innerHeight + "px";
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    window.addEventListener("resize", resize);
+    resize();
 
-  function startConfetti(){
-    running = true;
-    const count = 180;
-    pieces = Array.from({length: count}, () => ({
-      x: Math.random() * window.innerWidth,
-      y: -20 - Math.random() * window.innerHeight * 0.6,
-      r: 3 + Math.random() * 5,
-      c: `hsl(${Math.random()*360},100%,60%)`,
-      vy: 1.8 + Math.random() * 2.2,
-      vx: -0.8 + Math.random() * 1.6,
-      w: 0.6 + Math.random() * 0.8,
-      spin: -0.12 + Math.random() * 0.24
-    }));
+    function startConfetti(){
+      running = true;
+      const count = 180;
+      pieces = Array.from({length: count}, () => ({
+        x: Math.random() * window.innerWidth,
+        y: -20 - Math.random() * window.innerHeight * 0.6,
+        r: 3 + Math.random() * 5,
+        c: `hsl(${Math.random()*360},100%,60%)`,
+        vy: 1.8 + Math.random() * 2.2,
+        vx: -0.8 + Math.random() * 1.6
+      }));
 
-    animate();
-    setTimeout(()=>{ running = false; }, 3800);
-  }
+      animate();
+      setTimeout(()=>{ running = false; }, 3800);
+    }
 
-  function animate(){
-    ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
-    pieces.forEach(p=>{
-      p.vx += Math.sin(p.y * 0.01) * 0.02; // “vento” suave
-      p.x += p.vx;
-      p.y += p.vy;
-      p.w += p.spin;
+    function animate(){
+      ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
+      for(const p of pieces){
+        p.vx += Math.sin(p.y * 0.01) * 0.02;
+        p.x += p.vx;
+        p.y += p.vy;
 
-      ctx.save();
-      ctx.translate(p.x, p.y);
-      ctx.rotate(p.w);
-      ctx.fillStyle = p.c;
-      ctx.beginPath();
-      ctx.roundRect(-p.r, -p.r*0.6, p.r*2, p.r*1.2, 3);
-      ctx.fill();
-      ctx.restore();
+        ctx.beginPath();
+        ctx.fillStyle = p.c;
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+        ctx.fill();
 
-      if(p.y > window.innerHeight + 30){
-        p.y = -20;
-        p.x = Math.random() * window.innerWidth;
+        if(p.y > window.innerHeight + 30){
+          p.y = -20;
+          p.x = Math.random() * window.innerWidth;
+        }
+        if(p.x < -30) p.x = window.innerWidth + 30;
+        if(p.x > window.innerWidth + 30) p.x = -30;
       }
-      if(p.x < -30) p.x = window.innerWidth + 30;
-      if(p.x > window.innerWidth + 30) p.x = -30;
+
+      if(running) requestAnimationFrame(animate);
+      else ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
+    }
+
+    // ===== botão troll + abrir TikTok na mesma aba =====
+    let step = 0;
+    const TIKTOK = "https://vt.tiktok.com/ZSaGTfywW/";
+
+    document.getElementById("btn").addEventListener("click", () => {
+      const btn = document.getElementById("btn");
+      const msg = document.getElementById("msg");
+      const linkbox = document.getElementById("linkbox");
+
+      step++;
+
+      if(step === 1){
+        btn.textContent = "Clica de novo 😈👉";
+        msg.innerHTML = "Hmm… tá achando que é só isso? 👀😂";
+        return;
+      }
+
+      if(step === 2){
+        btn.textContent = "Agora é sério, vai 😤🎂";
+        msg.innerHTML = "Ok, ok… agora vai de verdade. (eu acho) 🤡🎉";
+        return;
+      }
+
+      if(step === 3){
+        btn.textContent = "Era mentira KKKKK 🤡";
+        msg.innerHTML = "KKKKKK peguei! 🤣🤣🤣 <br>Mas calma que AGORA sim vem a parte boa 😎✨";
+        return;
+      }
+
+      btn.textContent = "Tá bom, já entendi 😂✅";
+      btn.disabled = true;
+      btn.style.opacity = ".75";
+      btn.style.cursor = "default";
+
+      msg.innerHTML =
+        "AGORA SIM: FELIZ ANIVERSÁRIO, MYLENA!!! 🥳🎂🎉🎈🎊<br><br>" +
+        "Você é minha <strong>paulistinha preferida</strong> mesmo 😎🫶 " +
+        "Te desejo um ano absurdo de bom: risadas, sucesso e zero estresse (mentira, um pouco vai 😂)<br><br>" +
+        "E na Fisio: vai voar, futura fisio braba! 🧠💪🔥🩺";
+
+      linkbox.style.display = "block";
+      startConfetti();
+
+      setTimeout(() => {
+        window.location.href = TIKTOK;
+      }, 650);
     });
-
-    if(running) requestAnimationFrame(animate);
-    else ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
-  }
-
-  // Polyfill simples pro roundRect (caso algum navegador não suporte)
-  if(!CanvasRenderingContext2D.prototype.roundRect){
-    CanvasRenderingContext2D.prototype.roundRect = function(x,y,w,h,r){
-      r = Math.min(r, w/2, h/2);
-      this.beginPath();
-      this.moveTo(x+r, y);
-      this.arcTo(x+w, y, x+w, y+h, r);
-      this.arcTo(x+w, y+h, x, y+h, r);
-      this.arcTo(x, y+h, x, y, r);
-      this.arcTo(x, y, x+w, y, r);
-      this.closePath();
-      return this;
-    }
-  }
-
-  // ===== Botão troll (Opção 6) + abrir TikTok sem “mil páginas” =====
-  let step = 0;
-  const TIKTOK = "https://vt.tiktok.com/ZSaGTfywW/";
-
-  function btnClick(){
-    const btn = document.getElementById("btn");
-    const msg = document.getElementById("msg");
-    const linkbox = document.getElementById("linkbox");
-
-    step++;
-
-    if(step === 1){
-      btn.textContent = "Clica de novo 😈👉";
-      msg.innerHTML = "Hmm… tá achando que é só isso? 👀😂";
-      return;
-    }
-
-    if(step === 2){
-      btn.textContent = "Agora é sério, vai 😤🎂";
-      msg.innerHTML = "Ok, ok… agora vai de verdade. (eu acho) 🤡🎉";
-      return;
-    }
-
-    if(step === 3){
-      btn.textContent = "Era mentira KKKKK 🤡";
-      msg.innerHTML = "KKKKKK peguei! 🤣🤣🤣 <br>Mas calma que AGORA sim vem a parte boa 😎✨";
-      return;
-    }
-
-    // final
-    btn.textContent = "Tá bom, já entendi 😂✅";
-    btn.disabled = true;
-    btn.style.opacity = ".75";
-    btn.style.cursor = "default";
-
-    msg.innerHTML =
-      "AGORA SIM: FELIZ ANIVERSÁRIO, MYLENA!!! 🥳🎂🎉🎈🎊<br><br>" +
-      "Você é minha <strong>paulistinha preferida</strong> mesmo 😎🫶 " +
-      "Te desejo um ano absurdo de bom: risadas, sucesso e zero estresse (mentira, um pouco vai 😂)<br><br>" +
-      "E na Fisio: vai voar, futura fisio braba! 🧠💪🔥🩺";
-
-    // Mostra link reserva na tela
-    linkbox.style.display = "block";
-
-    // Confete
-    startConfetti();
-
-    // ABRIR “DIRETO” (sem abrir mil abas):
-    // Em vez de window.open (que pode abrir várias páginas), manda ir na mesma aba:
-    // (Isso é o jeito mais estável no iPhone/Android.)
-    setTimeout(() => {
-      window.location.href = TIKTOK;
-    }, 650);
-  }
-</script>
+  </script>
 
 </body>
 </html>
+
