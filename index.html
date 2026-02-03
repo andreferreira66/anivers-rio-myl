@@ -6,6 +6,7 @@
   <title>Feliz Aniversário, Mylena! 🎉</title>
   <meta name="theme-color" content="#ff4d6d"/>
 
+  <!-- iPhone “modo app” (opcional quando adiciona à tela inicial) -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
@@ -31,6 +32,7 @@
       overflow-x:hidden;
       -webkit-tap-highlight-color: transparent;
 
+      /* safe areas iPhone */
       padding:
         max(18px, env(safe-area-inset-top))
         max(18px, env(safe-area-inset-right))
@@ -41,6 +43,7 @@
       align-items:center;
       justify-content:center;
 
+      /* Fundo mais “dinâmico e suave” */
       background: radial-gradient(1200px 800px at 10% 10%, #ff9a9e 0%, transparent 55%),
                   radial-gradient(900px 700px at 90% 20%, #a1c4fd 0%, transparent 55%),
                   radial-gradient(900px 700px at 50% 95%, #a7f3d0 0%, transparent 55%),
@@ -54,6 +57,7 @@
       to  { background-position: 15% 10%, 85% 10%, 55% 95%, 10% 45%; }
     }
 
+    /* “bolhas” suaves no fundo */
     .bubbles{
       position:fixed;
       inset:0;
@@ -73,13 +77,13 @@
     .bubble:nth-child(2){ left: 78%; top: 68%; width:260px; height:260px; animation-duration: 16s; }
     .bubble:nth-child(3){ left: 70%; top: 10%; width:180px; height:180px; animation-duration: 14s; }
     .bubble:nth-child(4){ left: 10%; top: 12%; width:240px; height:240px; animation-duration: 18s; }
-
     @keyframes floaty{
       0%   { transform: translate3d(0,0,0) scale(1); }
       50%  { transform: translate3d(0,-18px,0) scale(1.03); }
       100% { transform: translate3d(0,0,0) scale(1); }
     }
 
+    /* Layout */
     .wrap{
       width:min(860px, 100%);
       position:relative;
@@ -105,6 +109,7 @@
       to{ transform: translateY(0); opacity:1; }
     }
 
+    /* micro animações suaves */
     .float{ animation: float 2.6s ease-in-out infinite alternate; }
     @keyframes float{ from{ transform: translateY(0);} to{ transform: translateY(-10px);} }
 
@@ -146,7 +151,7 @@
       border:none;
       background: var(--pink);
       color:white;
-      font-size: 16px;
+      font-size: 16px; /* evita zoom automático do iPhone */
       font-weight: 900;
       cursor:pointer;
       box-shadow: 0 12px 28px rgba(255,77,109,.45);
@@ -156,6 +161,7 @@
     button:hover{ opacity:.92; }
     button:active{ transform: translateY(1px); }
 
+    /* Confete */
     canvas{
       position:fixed;
       inset:0;
@@ -163,6 +169,7 @@
       z-index:999;
     }
 
+    /* Botão DESCE (fixo) */
     .down{
       position: fixed;
       right: max(14px, env(safe-area-inset-right));
@@ -180,6 +187,7 @@
     }
     .down:active{ transform: translateY(1px); }
 
+    /* Link “direto” (sem abrir mil abas) */
     .linkbox{
       display:none;
       margin-top: 14px;
@@ -202,6 +210,7 @@
       .footer{ font-size: 13px; }
     }
 
+    /* acessibilidade: reduz movimento */
     @media (prefers-reduced-motion: reduce){
       body, .emoji-line, .float, .card, .bubble{ animation: none !important; }
     }
@@ -218,6 +227,7 @@
 
   <canvas id="confetti"></canvas>
 
+  <!-- Botão descer -->
   <button class="down" id="downBtn" type="button" onclick="scrollToButton()">DESCE ⬇️</button>
 
   <div class="wrap">
@@ -262,146 +272,156 @@
     </div>
   </div>
 
-  <script>
-    function scrollToButton(){
-      document.getElementById("btn").scrollIntoView({ behavior: "smooth", block: "center" });
-    }
+<script>
+  // ===== Scroll “DESCE” =====
+  function scrollToButton(){
+    document.getElementById("btn").scrollIntoView({ behavior: "smooth", block: "center" });
+  }
 
-    const downBtn = document.getElementById("downBtn");
-    const mainBtn = document.getElementById("btn");
-    const io = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        downBtn.style.display = e.isIntersecting ? "none" : "block";
-      });
-    }, { threshold: 0.2 });
-    io.observe(mainBtn);
+  // Esconde o botão DESCE quando já está perto do botão principal
+  const downBtn = document.getElementById("downBtn");
+  const mainBtn = document.getElementById("btn");
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      downBtn.style.display = e.isIntersecting ? "none" : "block";
+    });
+  }, { threshold: 0.2 });
+  io.observe(mainBtn);
 
-    // ===== Confete suave =====
-    const canvas = document.getElementById("confetti");
-    const ctx = canvas.getContext("2d");
-    let pieces = [];
-    let running = false;
+  // ===== Confete (mais suave e dinâmico) =====
+  const canvas = document.getElementById("confetti");
+  const ctx = canvas.getContext("2d");
+  let pieces = [];
+  let running = false;
 
-    function resize(){
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width = Math.floor(window.innerWidth * dpr);
-      canvas.height = Math.floor(window.innerHeight * dpr);
-      canvas.style.width = window.innerWidth + "px";
-      canvas.style.height = window.innerHeight + "px";
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    }
-    window.addEventListener("resize", resize);
-    resize();
+  function resize(){
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.floor(window.innerWidth * dpr);
+    canvas.height = Math.floor(window.innerHeight * dpr);
+    canvas.style.width = window.innerWidth + "px";
+    canvas.style.height = window.innerHeight + "px";
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  window.addEventListener("resize", resize);
+  resize();
 
-    if(!CanvasRenderingContext2D.prototype.roundRect){
-      CanvasRenderingContext2D.prototype.roundRect = function(x,y,w,h,r){
-        r = Math.min(r, w/2, h/2);
-        this.beginPath();
-        this.moveTo(x+r, y);
-        this.arcTo(x+w, y, x+w, y+h, r);
-        this.arcTo(x+w, y+h, x, y+h, r);
-        this.arcTo(x, y+h, x, y, r);
-        this.arcTo(x, y, x+w, y, r);
-        this.closePath();
-        return this;
+  function startConfetti(){
+    running = true;
+    const count = 180;
+    pieces = Array.from({length: count}, () => ({
+      x: Math.random() * window.innerWidth,
+      y: -20 - Math.random() * window.innerHeight * 0.6,
+      r: 3 + Math.random() * 5,
+      c: `hsl(${Math.random()*360},100%,60%)`,
+      vy: 1.8 + Math.random() * 2.2,
+      vx: -0.8 + Math.random() * 1.6,
+      w: 0.6 + Math.random() * 0.8,
+      spin: -0.12 + Math.random() * 0.24
+    }));
+
+    animate();
+    setTimeout(()=>{ running = false; }, 3800);
+  }
+
+  function animate(){
+    ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
+    pieces.forEach(p=>{
+      p.vx += Math.sin(p.y * 0.01) * 0.02; // “vento” suave
+      p.x += p.vx;
+      p.y += p.vy;
+      p.w += p.spin;
+
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.w);
+      ctx.fillStyle = p.c;
+      ctx.beginPath();
+      ctx.roundRect(-p.r, -p.r*0.6, p.r*2, p.r*1.2, 3);
+      ctx.fill();
+      ctx.restore();
+
+      if(p.y > window.innerHeight + 30){
+        p.y = -20;
+        p.x = Math.random() * window.innerWidth;
       }
+      if(p.x < -30) p.x = window.innerWidth + 30;
+      if(p.x > window.innerWidth + 30) p.x = -30;
+    });
+
+    if(running) requestAnimationFrame(animate);
+    else ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
+  }
+
+  // Polyfill simples pro roundRect (caso algum navegador não suporte)
+  if(!CanvasRenderingContext2D.prototype.roundRect){
+    CanvasRenderingContext2D.prototype.roundRect = function(x,y,w,h,r){
+      r = Math.min(r, w/2, h/2);
+      this.beginPath();
+      this.moveTo(x+r, y);
+      this.arcTo(x+w, y, x+w, y+h, r);
+      this.arcTo(x+w, y+h, x, y+h, r);
+      this.arcTo(x, y+h, x, y, r);
+      this.arcTo(x, y, x+w, y, r);
+      this.closePath();
+      return this;
+    }
+  }
+
+  // ===== Botão troll (Opção 6) + abrir TikTok sem “mil páginas” =====
+  let step = 0;
+  const TIKTOK = "https://vt.tiktok.com/ZSaGTfywW/";
+
+  function btnClick(){
+    const btn = document.getElementById("btn");
+    const msg = document.getElementById("msg");
+    const linkbox = document.getElementById("linkbox");
+
+    step++;
+
+    if(step === 1){
+      btn.textContent = "Clica de novo 😈👉";
+      msg.innerHTML = "Hmm… tá achando que é só isso? 👀😂";
+      return;
     }
 
-    function startConfetti(){
-      running = true;
-      const count = 180;
-      pieces = Array.from({length: count}, () => ({
-        x: Math.random() * window.innerWidth,
-        y: -20 - Math.random() * window.innerHeight * 0.6,
-        r: 3 + Math.random() * 5,
-        c: `hsl(${Math.random()*360},100%,60%)`,
-        vy: 1.8 + Math.random() * 2.2,
-        vx: -0.8 + Math.random() * 1.6,
-        w: 0.6 + Math.random() * 0.8,
-        spin: -0.12 + Math.random() * 0.24
-      }));
-
-      animate();
-      setTimeout(()=>{ running = false; }, 3800);
+    if(step === 2){
+      btn.textContent = "Agora é sério, vai 😤🎂";
+      msg.innerHTML = "Ok, ok… agora vai de verdade. (eu acho) 🤡🎉";
+      return;
     }
 
-    function animate(){
-      ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
-      pieces.forEach(p=>{
-        p.vx += Math.sin(p.y * 0.01) * 0.02;
-        p.x += p.vx;
-        p.y += p.vy;
-        p.w += p.spin;
-
-        ctx.save();
-        ctx.translate(p.x, p.y);
-        ctx.rotate(p.w);
-        ctx.fillStyle = p.c;
-        ctx.roundRect(-p.r, -p.r*0.6, p.r*2, p.r*1.2, 3);
-        ctx.fill();
-        ctx.restore();
-
-        if(p.y > window.innerHeight + 30){
-          p.y = -20;
-          p.x = Math.random() * window.innerWidth;
-        }
-        if(p.x < -30) p.x = window.innerWidth + 30;
-        if(p.x > window.innerWidth + 30) p.x = -30;
-      });
-
-      if(running) requestAnimationFrame(animate);
-      else ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
+    if(step === 3){
+      btn.textContent = "Era mentira KKKKK 🤡";
+      msg.innerHTML = "KKKKKK peguei! 🤣🤣🤣 <br>Mas calma que AGORA sim vem a parte boa 😎✨";
+      return;
     }
 
-    // ===== Botão troll + abrir TikTok “direto” =====
-    let step = 0;
-    const TIKTOK = "https://vt.tiktok.com/ZSaGTfywW/";
+    // final
+    btn.textContent = "Tá bom, já entendi 😂✅";
+    btn.disabled = true;
+    btn.style.opacity = ".75";
+    btn.style.cursor = "default";
 
-    function btnClick(){
-      const btn = document.getElementById("btn");
-      const msg = document.getElementById("msg");
-      const linkbox = document.getElementById("linkbox");
+    msg.innerHTML =
+      "AGORA SIM: FELIZ ANIVERSÁRIO, MYLENA!!! 🥳🎂🎉🎈🎊<br><br>" +
+      "Você é minha <strong>paulistinha preferida</strong> mesmo 😎🫶 " +
+      "Te desejo um ano absurdo de bom: risadas, sucesso e zero estresse (mentira, um pouco vai 😂)<br><br>" +
+      "E na Fisio: vai voar, futura fisio braba! 🧠💪🔥🩺";
 
-      step++;
+    // Mostra link reserva na tela
+    linkbox.style.display = "block";
 
-      if(step === 1){
-        btn.textContent = "Clica de novo 😈👉";
-        msg.innerHTML = "Hmm… tá achando que é só isso? 👀😂";
-        return;
-      }
+    // Confete
+    startConfetti();
 
-      if(step === 2){
-        btn.textContent = "Agora é sério, vai 😤🎂";
-        msg.innerHTML = "Ok, ok… agora vai de verdade. (eu acho) 🤡🎉";
-        return;
-      }
-
-      if(step === 3){
-        btn.textContent = "Era mentira KKKKK 🤡";
-        msg.innerHTML = "KKKKKK peguei! 🤣🤣🤣 <br>Mas calma que AGORA sim vem a parte boa 😎✨";
-        return;
-      }
-
-      btn.textContent = "Tá bom, já entendi 😂✅";
-      btn.disabled = true;
-      btn.style.opacity = ".75";
-      btn.style.cursor = "default";
-
-      msg.innerHTML =
-        "AGORA SIM: FELIZ ANIVERSÁRIO, MYLENA!!! 🥳🎂🎉🎈🎊<br><br>" +
-        "Você é minha <strong>paulistinha preferida</strong> mesmo 😎🫶 " +
-        "Te desejo um ano absurdo de bom: risadas, sucesso e zero estresse (mentira, um pouco vai 😂)<br><br>" +
-        "E na Fisio: vai voar, futura fisio braba! 🧠💪🔥🩺";
-
-      linkbox.style.display = "block";
-      startConfetti();
-
-      setTimeout(() => {
-        window.location.href = TIKTOK;
-      }, 650);
-    }
-  </script>
+    // ABRIR “DIRETO” (sem abrir mil abas):
+    // Em vez de window.open (que pode abrir várias páginas), manda ir na mesma aba:
+    // (Isso é o jeito mais estável no iPhone/Android.)
+    setTimeout(() => {
+      window.location.href = TIKTOK;
+    }, 650);
+  }
+</script>
 
 </body>
 </html>
-
