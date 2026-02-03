@@ -251,7 +251,7 @@
 
       <div class="linkbox" id="linkbox">
         Se o TikTok não abrir sozinho, clica aqui: <br>
-        <a href="https://vt.tiktok.com/ZSaGTfywW/" target="_blank" rel="noopener noreferrer">
+        <a id="tiktokLink" href="https://vt.tiktok.com/ZSaGTfywW/" target="_blank" rel="noopener noreferrer">
           https://vt.tiktok.com/ZSaGTfywW/
         </a>
       </div>
@@ -276,6 +276,7 @@
     }, { threshold: 0.2 });
     io.observe(mainBtn);
 
+    // ===== Confete suave =====
     const canvas = document.getElementById("confetti");
     const ctx = canvas.getContext("2d");
     let pieces = [];
@@ -352,6 +353,7 @@
       else ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
     }
 
+    // ===== Botão troll + abrir TikTok “direto” =====
     let step = 0;
     const TIKTOK = "https://vt.tiktok.com/ZSaGTfywW/";
 
@@ -402,3 +404,4 @@
 
 </body>
 </html>
+
